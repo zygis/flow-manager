@@ -1,4 +1,6 @@
 flow-manager
 ============
 
-Simple way avoid "callback hell"
+Simple way to avoid "callback hell"
+
+Example: test.js
