@@ -1,10 +1,10 @@
 {
   "name": "flow-manager",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Simple way to avoid callback hell on nodeJS",
   "main": "index.js",
   "scripts": {
-    "test": "test test.js"
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",
@@ -19,9 +19,5 @@
   "gitHead": "0bc8dd519250cb5248386fe29735cc4d7d2c71e8",
   "bugs": {
     "url": "https://github.com/zygis/flow-manager/issues"
-  },
-  "dependencies": {
-    "backbone":"*",
-    "underscore":"*"
   }
 }
