@@ -108,8 +108,5 @@ Flows
         flow.next();
     })
     .execute();
-setTimeout(function() {
-    console.log('size', Flows.size());
-}, 1000);
 
 
