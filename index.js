@@ -23,7 +23,16 @@ Flow.prototype.repeat = function (data) {
     if (typeof this._chain[this._currentStep] !== 'undefined') {
         var me = this;
         process.nextTick(function() {
-            me._chain[me._currentStep](me, data);
+            try {
+                me._chain[me._currentStep](me, data);
+            } catch (e) {
+                if (me._catch === null) {
+                    throw e;
+                } else {
+                    me._catch(e, data);
+                }
+                module.exports.destroy(me);
+            }
         });
     }
 };

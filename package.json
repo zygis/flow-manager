@@ -1,6 +1,6 @@
 {
   "name": "flow-manager",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Simple way to avoid callback hell",
   "main": "index.js",
   "scripts": {
