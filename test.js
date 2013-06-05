@@ -64,7 +64,7 @@ var Flows = require('./index'),
                 .create()
                 .addStep(function (flow, data) {
                     assert.strictEqual(data.param, 1);
-                    flow.nextFrom(2, data);
+                    flow.nextFrom(3, data);
                 })
                 .addStep(function (flow, data) {
                     data.param += 1;
@@ -82,11 +82,65 @@ var Flows = require('./index'),
                     realFlow: flow,
                     realFlowData: data
                 });
+        },
+
+        getStep: function (flow, data) {
+            Flows
+                .create()
+                .addStep(function (flow, data) {
+                    assert.strictEqual(data.param, 1);
+                    assert.strictEqual(flow.getStep(), 1);
+                    flow.next(data);
+                })
+                .addStep(function (flow, data) {
+                    assert.strictEqual(data.param, 1);
+                    assert.strictEqual(flow.getStep(), 2);
+                    flow.next(data);
+                })
+                .addStep(function (flow, data) {
+                    assert.strictEqual(data.param, 1);
+                    assert.strictEqual(flow.getStep(), 3);
+                    console.log('| ' + data.realFlowData.step + ' . Passed | Get Step');
+                    data.realFlowData.step += 1;
+                    data.realFlow.next(data.realFlowData);
+                    flow.next();
+                })
+                .execute({
+                    param: 1,
+                    realFlow: flow,
+                    realFlowData: data
+                });
+        },
+
+        catchError: function (flow, data) {
+            Flows
+                .create()
+                .addStep(function (flow, data) {
+                    assert.strictEqual(data.param, 1);
+                    assert.strictEqual(flow.getStep(), 1);
+                    data.param += 1;
+                    flow.next(data);
+                })
+                .addStep(function (flow, data) {
+                    throw new Error('ups!');
+                    flow.next(data);
+                })
+                .addStep(function (flow, data) {
+                    // empty
+                })
+                .catch(function (error, data) {
+                    assert.strictEqual(data.param, 2);
+                    assert.strictEqual(error.toString(), 'Error: ups!');
+                    console.log('| ' + data.realFlowData.step + ' . Passed | Catch Error');
+                    data.realFlowData.step += 1;
+                    data.realFlow.next(data.realFlowData);
+                })
+                .execute({
+                    param: 1,
+                    realFlow: flow,
+                    realFlowData: data
+                });
         }
-
-
-
-
     }
 
 Flows
@@ -101,6 +155,8 @@ Flows
     .addStep(Tests.simpleFlow)
     .addStep(Tests.repeatStep)
     .addStep(Tests.skipStep)
+    .addStep(Tests.getStep)
+    .addStep(Tests.catchError)
     .addStep(function (flow) {
         console.log('------------------------------------');
         console.log('|          ALL TESTS PASSED        |');

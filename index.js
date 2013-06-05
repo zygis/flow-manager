@@ -1,6 +1,7 @@
 var Flow = function () {
             this.id = 0;
             this._chain = [];
+            this._catch = null;
             this._currentStep = 0;
     },
     flowIterator = 0,
@@ -10,8 +11,12 @@ Flow.prototype.addStep = function (callback) {
     this._chain[this._chain.length] = callback;
     return this;
 };
+Flow.prototype.catch = function (callback) {
+    this._catch = callback;
+    return this;
+};
 Flow.prototype.nextFrom = function (index, data) {
-    this._currentStep = index - 1;
+    this._currentStep = index - 2;
     this.next(data);
 };
 Flow.prototype.repeat = function (data) {
@@ -27,11 +32,23 @@ Flow.prototype.next = function (data) {
         this._currentStep += 1;
         var me = this;
         process.nextTick(function() {
-            me._chain[me._currentStep](me, data);
+            try {
+                me._chain[me._currentStep](me, data);
+            } catch (e) {
+                if (me._catch === null) {
+                    throw e;
+                } else {
+                    me._catch(e, data);
+                }
+                module.exports.destroy(me);
+            }
         });
     } else {
         module.exports.destroy(this);
     }
+};
+Flow.prototype.getStep = function () {
+    return this._currentStep + 1;
 };
 Flow.prototype.execute = function(data) {
     if (typeof data === 'undefined') {
