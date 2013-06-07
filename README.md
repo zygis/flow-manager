@@ -42,7 +42,7 @@ var flow = Flows
             });
 ```
 
-## If something goes wrong
+## Catch errors
 
 ```javascript
 var Flows = require('flow-manager');
@@ -59,10 +59,10 @@ Flows
             flow.next(data);
         })
         .addStep(function (flow, data) {
-            console.log('All went OK', data); // Expected: All went OK {step1: true, step2: true}
+            console.log('All OK', data); // Expected: All OK {step1: true, step2: true}
         })
         .catch(function (data) {
-            console.log('Something goes wrong', data);
+            console.log('Error', data);
         })
         .execute({
             step1: false,
@@ -70,7 +70,7 @@ Flows
         });
 
 // Result:
-// Something goes wrong {step1: true, step2: false}
+// Error {step1: true, step2: false}
 ```
 
 ## Full control
