@@ -8,13 +8,13 @@ Small library to manage async functions.
 
 Well... Yes. But this one is dead simple. Simple library - less overhead and less bugs.
 
-## Instalation
+## Install
 
 ```
 npm install flow-manager
 ```
 
-## How it works?
+## How it works
 
 Create "Flow" object and add some steps. "Step" is a simple callback with two arguments: flow object and data object.
 
@@ -31,9 +31,9 @@ var flow = Flows
             .addStep(function (flow, data) {
                 console.log(data); // {initialData: {isAwesome: true}, step1: true}
 
-                // to destroy flow object use:
+                // always destroy flow object at the end:
                 Flows.destroy(flow);
-                // OR if this is the last step, after another .next() it will be destroyed
+                // OR if this is the last step, after .next() it will be destroyed automatically
                 flow.next();
                 //
             })
@@ -42,7 +42,7 @@ var flow = Flows
             });
 ```
 
-If something goes wrong:
+## If something goes wrong
 
 ```javascript
 var Flows = require('flow-manager');
@@ -73,10 +73,14 @@ Flows
 // Something goes wrong {step1: true, step2: false}
 ```
 
+## Full control
 
+* flow.next(object) - goes to next step, if object is provided next step will receive it as a second argument
+* flow.nextFrom(int, object) - same as .next but it will start from another step, int - step number
+* flow.getStep(void) - receive current step number
+* flow.repeat(object) - repeat current step
+* flow.execute(object) - start flow, object holds data for first step, if object is not provided - then first step will receive null
 
+## Real world example
 
-
-
-## Example
-
+Real world is much more complex, than examples, take a look: <a href="https://github.com/zygis/flow-manager/blob/master/test.js" target="_blank">test.js</a>
