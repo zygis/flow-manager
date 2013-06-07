@@ -2,7 +2,7 @@
 
 <a href="https://travis-ci.org/zygis/flow-manager" target="blank"><img src="https://api.travis-ci.org/zygis/flow-manager.png" alt="build status" /></a>
 
-Small library to manage async functions.
+Small library to manage async functions and avoid "callback hell"
 
 ## Another (async|steps|flow|etc) library?
 
