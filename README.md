@@ -75,11 +75,11 @@ Flows
 
 ## Full control
 
-* flow.next(object) - goes to next step, if object is provided next step will receive it as a second argument
-* flow.nextFrom(int, object) - same as .next but it will start from another step, int - step number
-* flow.getStep(void) - receive current step number
-* flow.repeat(object) - repeat current step
-* flow.execute(object) - start flow, object holds data for first step, if object is not provided - then first step will receive null
+* flow.next(*object*) - Goes to the next step. If *object* is provided - next step will receive it as a data
+* flow.nextFrom(*int*, *object*) - Same as .next just another step will be used, *int* - step number
+* flow.getStep() - receive current step number
+* flow.repeat(*object*) - repeat current step
+* flow.execute(*object*) - start flow, object holds data for first step, if *object* is not provided - then first step will receive *null*
 
 ## Real world example
 
