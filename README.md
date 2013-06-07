@@ -75,11 +75,11 @@ Flows
 
 ## Full control
 
-* flow.next(_object_) - Goes to the next step. If _object_ is provided - next step will receive it as a data
-* flow.nextFrom(_int_, _object_) - Same as .next just another step will be used, _int_ - step number
+* flow.next(<i>object</i>) - Goes to the next step. If <i>object</i> is provided - next step will receive it as a data
+* flow.nextFrom(<i>int</i>, <i>object</i>) - Same as .next just another step will be used, <i>int</i> - step number
 * flow.getStep() - receive current step number
-* flow.repeat(_object_) - repeat current step
-* flow.execute(_object_) - start flow, object holds data for first step, if _object_ is not provided - then first step will receive _null_
+* flow.repeat(<i>object</i>) - repeat current step
+* flow.execute(<i>object</i>) - start flow, object holds data for first step, if <i>object</i> is not provided - then first step will receive <i>null</i>
 
 ## Real world example
 
