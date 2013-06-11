@@ -21,25 +21,25 @@ Create "Flow" object and add some steps. "Step" is a simple callback with two ar
 ```javascript
 var Flows = require('flow-manager');
 
-var flow = Flows
-            .create();
-            .addStep(function (flow, data) {
-                // some awesome stuff
-                data.step1 = 'done';
-                flow.next(data);
-            })
-            .addStep(function (flow, data) {
-                console.log(data); // {initialData: {isAwesome: true}, step1: true}
+Flows
+        .create();
+        .addStep(function (flow, data) {
+            // some awesome stuff
+            data.step1 = 'done';
+            flow.next(data);
+        })
+        .addStep(function (flow, data) {
+            console.log(data); // {initialData: {isAwesome: true}, step1: true}
 
-                // always destroy flow object at the end:
-                Flows.destroy(flow);
-                // OR if this is the last step, after .next() it will be destroyed automatically
-                flow.next();
-                //
-            })
-            .execute({
-                initialData: {isAwesome: true}
-            });
+            // always destroy flow object at the end:
+            Flows.destroy(flow);
+            // OR if this is the last step, after .next() it will be destroyed automatically
+            //flow.next();
+            //
+        })
+        .execute({
+            initialData: {isAwesome: true}
+        });
 ```
 
 ## Catch errors
@@ -60,6 +60,7 @@ Flows
         })
         .addStep(function (flow, data) {
             console.log('All OK', data); // Expected: All OK {step1: true, step2: true}
+            Flows.destroy(flow);
         })
         .catch(function (data) {
             console.log('Error', data);
