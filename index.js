@@ -21,17 +21,17 @@ Flow.prototype.nextFrom = function (index, data) {
 };
 Flow.prototype.repeat = function (data) {
     if (typeof this._chain[this._currentStep] !== 'undefined') {
-        var me = this;
+        var self = this;
         process.nextTick(function() {
             try {
-                me._chain[me._currentStep](me, data);
+                self._chain[self._currentStep](self, data);
             } catch (e) {
-                if (me._catch === null) {
+                if (self._catch === null) {
                     throw e;
                 } else {
-                    me._catch(e, data);
+                    self._catch(e, data);
                 }
-                module.exports.destroy(me);
+                module.exports.destroy(self);
             }
         });
     }
@@ -39,17 +39,17 @@ Flow.prototype.repeat = function (data) {
 Flow.prototype.next = function (data) {
     if (typeof this._chain[this._currentStep + 1] !== 'undefined') {
         this._currentStep += 1;
-        var me = this;
+        var self = this;
         process.nextTick(function() {
             try {
-                me._chain[me._currentStep](me, data);
+                self._chain[self._currentStep](self, data);
             } catch (e) {
-                if (me._catch === null) {
+                if (self._catch === null) {
                     throw e;
                 } else {
-                    me._catch(e, data);
+                    self._catch(e, data);
                 }
-                module.exports.destroy(me);
+                module.exports.destroy(self);
             }
         });
     } else {
@@ -58,6 +58,17 @@ Flow.prototype.next = function (data) {
 };
 Flow.prototype.getStep = function () {
     return this._currentStep + 1;
+};
+Flow.prototype.throwError = function (error, data) {
+    var self = this;
+    process.nextTick(function() {
+        if (self._catch === null) {
+            throw new Error(error.toString());
+        } else {
+            self._catch(new Error(error.toString()), data);
+        }
+        module.exports.destroy(self);
+    });
 };
 Flow.prototype.execute = function(data) {
     if (typeof data === 'undefined') {

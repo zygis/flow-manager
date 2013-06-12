@@ -140,6 +140,42 @@ var Flows = require('./index'),
                     realFlow: flow,
                     realFlowData: data
                 });
+        },
+
+        throwError: function (flow, data) {
+            Flows
+                .create()
+                .addStep(function (flow, data) {
+                    assert.strictEqual(data.param, 1);
+                    assert.strictEqual(flow.getStep(), 1);
+                    data.param += 1;
+                    flow.next(data);
+                })
+                .addStep(function (flow, data) {
+                    setTimeout(function () {
+                        setTimeout(function () {
+                            setTimeout(function () {
+                                flow.throwError('deep', data);
+                                flow.next(data);
+                            },0);
+                        },0);
+                    },0);
+                })
+                .addStep(function (flow, data) {
+                    // empty
+                })
+                .catch(function (error, data) {
+                    assert.strictEqual(data.param, 2);
+                    assert.strictEqual(error.toString(), 'Error: deep');
+                    console.log('| ' + data.realFlowData.step + ' . Passed | Throw Error');
+                    data.realFlowData.step += 1;
+                    data.realFlow.next(data.realFlowData);
+                })
+                .execute({
+                    param: 1,
+                    realFlow: flow,
+                    realFlowData: data
+                });
         }
     }
 
@@ -157,6 +193,7 @@ Flows
     .addStep(Tests.skipStep)
     .addStep(Tests.getStep)
     .addStep(Tests.catchError)
+    .addStep(Tests.throwError)
     .addStep(function (flow) {
         console.log('------------------------------------');
         console.log('|          ALL TESTS PASSED        |');
