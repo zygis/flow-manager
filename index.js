@@ -21,37 +21,35 @@ Flow.prototype.nextFrom = function (index, data) {
 };
 Flow.prototype.repeat = function (data) {
     if (typeof this._chain[this._currentStep] !== 'undefined') {
-        var self = this;
-        process.nextTick(function() {
+        setImmediate(function(flow, data) {
             try {
-                self._chain[self._currentStep](self, data);
+                flow._chain[flow._currentStep](flow, data);
             } catch (e) {
-                if (self._catch === null) {
+                if (flow._catch === null) {
                     throw e;
                 } else {
-                    self._catch(e, data);
+                    flow._catch(e, data);
                 }
-                module.exports.destroy(self);
+                module.exports.destroy(flow);
             }
-        });
+        }, this, data);
     }
 };
 Flow.prototype.next = function (data) {
     if (typeof this._chain[this._currentStep + 1] !== 'undefined') {
         this._currentStep += 1;
-        var self = this;
-        process.nextTick(function() {
+        setImmediate(function(flow, data) {
             try {
-                self._chain[self._currentStep](self, data);
+                flow._chain[flow._currentStep](flow, data);
             } catch (e) {
-                if (self._catch === null) {
+                if (flow._catch === null) {
                     throw e;
                 } else {
-                    self._catch(e, data);
+                    flow._catch(e, data);
                 }
-                module.exports.destroy(self);
+                module.exports.destroy(flow);
             }
-        });
+        }, this, data);
     } else {
         module.exports.destroy(this);
     }

@@ -34,19 +34,19 @@ var Flows = require('./index'),
                 .create()
                 .addStep(function (flow, data) {
                     data.param += 1;
-                    if (data.param < 3) {
+                    if (data.param < 3000) {
                         flow.repeat(data);
                     } else {
                         flow.next(data);
                     }
                 })
                 .addStep(function (flow, data) {
-                    assert.strictEqual(data.param, 3);
+                    assert.strictEqual(data.param, 3000);
                     data.param += 1;
                     flow.next(data);
                 })
                 .addStep(function (flow, data) {
-                    assert.strictEqual(data.param, 4);
+                    assert.strictEqual(data.param, 3001);
                     console.log('| ' + data.realFlowData.step + ' . Passed | Repeat Step');
                     data.realFlowData.step += 1;
                     data.realFlow.next(data.realFlowData);
