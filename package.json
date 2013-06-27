@@ -1,10 +1,10 @@
 {
   "name": "flow-manager",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "description": "Simple way to avoid callback hell",
-  "main": "index.js",
+  "main": "lib/manager.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node test/test.js"
   },
   "repository": {
     "type": "git",

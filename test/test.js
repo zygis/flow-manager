@@ -1,4 +1,4 @@
-var Flows = require('./index'),
+var Flows = require('./../lib/manager'),
     assert = require('assert'),
     Tests = {
 
@@ -128,7 +128,7 @@ var Flows = require('./index'),
                 .addStep(function (flow, data) {
                     // empty
                 })
-                .catch(function (error, data) {
+                .catchError(function (error, data) {
                     assert.strictEqual(data.param, 2);
                     assert.strictEqual(error.toString(), 'Error: ups!');
                     console.log('| ' + data.realFlowData.step + ' . Passed | Catch Error');
@@ -164,7 +164,7 @@ var Flows = require('./index'),
                 .addStep(function (flow, data) {
                     // empty
                 })
-                .catch(function (error, data) {
+                .catchError(function (error, data) {
                     assert.strictEqual(data.param, 2);
                     assert.strictEqual(error.toString(), 'Error: deep');
                     console.log('| ' + data.realFlowData.step + ' . Passed | Throw Error');
