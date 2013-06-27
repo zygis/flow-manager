@@ -34,7 +34,7 @@ Flows
             // always destroy flow object at the end:
             Flows.destroy(flow);
             // OR if this is the last step, after .next() it will be destroyed automatically
-            //flow.next();
+            // flow.next();
             //
         })
         .execute({
@@ -62,7 +62,7 @@ Flows
             console.log('All OK', data); // Expected: All OK {step1: true, step2: true}
             Flows.destroy(flow);
         })
-        .catch(function (data) {
+        .catchError(function (data) {
             console.log('Error', data);
         })
         .execute({
